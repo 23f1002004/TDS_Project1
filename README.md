@@ -1,3 +1,14 @@
+---
+title: My Demo App
+emoji: 🤖
+colorFrom: blue
+colorTo: green
+sdk: gradio       # or streamlit
+sdk_version: "3.52.0"  # your Gradio/Streamlit version
+app_file: app.py
+pinned: false
+---
+
 title: LLM Code Deployment App sdk: docker app_port: 7860 license: mit
 
 🧠 Flask LLM App
