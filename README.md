@@ -1,31 +1,27 @@
 ---
-title: My Demo App
+title: LLM Code Deployment App
 emoji: 🤖
 colorFrom: blue
 colorTo: green
-sdk: gradio       # or streamlit
-sdk_version: "3.52.0"  # your Gradio/Streamlit version
+sdk: docker
+sdk_version: "3.52.0"
 app_file: app.py
 pinned: false
 ---
 
-title: LLM Code Deployment App sdk: docker app_port: 7860 license: mit
-
-🧠 Flask LLM App
+# 🧠 Flask LLM App
 
 This app automates code generation, GitHub updates, and evaluation notifications for multi-round LLM evaluations.
 
-🚀 Features
+## 🚀 Features
 
-Flask-based backend for handling evaluation rounds
+- Flask-based backend for handling evaluation rounds
+- Integration with GitHub for automatic commits
+- Notifier module to send evaluation updates
+- Ready for Hugging Face Spaces deployment
 
-Integration with GitHub for automatic commits
+## 🐳 Run Locally
 
-Notifier module to send evaluation updates
-
-Ready for Hugging Face Spaces deployment
-
-🐳 Run Locally
-
+```bash
 pip install -r requirements.txt
 python app.py
