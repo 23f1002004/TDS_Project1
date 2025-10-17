@@ -3,9 +3,6 @@ title: LLM Code Deployment App
 emoji: 🤖
 colorFrom: blue
 colorTo: green
-sdk: docker
-sdk_version: "3.52.0"
-app_file: app.py
 pinned: false
 ---
 
