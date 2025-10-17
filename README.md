@@ -6,19 +6,25 @@ colorTo: green
 pinned: false
 ---
 
-# 🧠 Flask LLM App
+# 🧠 LLM Code Deployment App
 
-This app automates code generation, GitHub updates, and evaluation notifications for multi-round LLM evaluations.
+This is a **Docker-based Flask app** that automates code generation, GitHub updates, and evaluation notifications for multi-round LLM evaluations.  
+
+---
 
 ## 🚀 Features
 
-- Flask-based backend for handling evaluation rounds
-- Integration with GitHub for automatic commits
-- Notifier module to send evaluation updates
-- Ready for Hugging Face Spaces deployment
+- Flask backend for handling evaluation rounds  
+- Integration with GitHub for automatic commits  
+- Notifier module to send evaluation updates  
+- Ready for deployment on Hugging Face Spaces using Docker  
+
+---
 
 ## 🐳 Run Locally
 
 ```bash
+git clone <your-repo-url>
+cd <repo-folder>
 pip install -r requirements.txt
 python app.py
