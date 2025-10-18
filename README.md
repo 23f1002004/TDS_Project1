@@ -1,9 +1,11 @@
 ---
-title: LLM Code Deployment App
-emoji: 🤖
-colorFrom: blue
-colorTo: green
+title: Tdsp1
+emoji: 📈
+colorFrom: indigo
+colorTo: pink
 pinned: false
+license: mit
+short_description: 'For deploying TDS Project 1'
 ---
 
 # 🧠 LLM Code Deployment App
