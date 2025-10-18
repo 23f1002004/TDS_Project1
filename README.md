@@ -3,6 +3,7 @@ title: Tdsp1
 emoji: 📈
 colorFrom: indigo
 colorTo: pink
+sdk: docker
 pinned: false
 license: mit
 short_description: 'For deploying TDS Project 1'
@@ -10,7 +11,7 @@ short_description: 'For deploying TDS Project 1'
 
 # 🧠 LLM Code Deployment App
 
-This is a **Docker-based Flask app** that automates code generation, GitHub updates, and evaluation notifications for multi-round LLM evaluations.  
+This is a **Docker-based Flask app** that automates code generation, GitHub updates, and evaluation notifications for multi-round LLM evaluations.
 
 ---
 
