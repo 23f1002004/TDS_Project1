@@ -1,7 +1,7 @@
 import os
 import base64
 import requests
-from datetime import date
+from datetime import date, datetime
 
 GITHUB_API = "https://api.github.com"
 GITHUB_USER = "23f1002004"
@@ -36,7 +36,7 @@ def create_and_push_repo(task, generated_code, brief):
     Creates a GitHub repo and uploads all generated files (HTML, CSS, JS, Vue, etc.)
     Returns repo_url, pages_url, and full_name for future updates
     """
-    repo_name = f"{task}-app"
+    repo_name = f"{task}-app-{datetime.utcnow().strftime('%Y%m%d%H%M%S')}"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
 
     resp = requests.post(
