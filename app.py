@@ -141,7 +141,7 @@ def receive_request():
         "pages_url": REPO_STORE[task]["pages_url"]
     }), 200
 
-
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7860))
-    app.run(debug=True, host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port)
+
