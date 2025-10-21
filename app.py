@@ -1,4 +1,3 @@
-# Triggering Hugging Face Docker build
 import os
 import base64
 import json
@@ -13,26 +12,18 @@ from notifier import notify_evaluation_url
 app = Flask(__name__)
 
 EXPECTED_SECRET = "2546@#$yutiop!2890"
-ATTACHMENT_DIR = "attachments"
-os.makedirs(ATTACHMENT_DIR, exist_ok=True)
-REPO_STORE_FILE = "repo_store.json"
 
-if os.path.exists(REPO_STORE_FILE):
-    with open(REPO_STORE_FILE, "r", encoding="utf-8") as f:
-        REPO_STORE = json.load(f)
-else:
-    REPO_STORE = {}
+# ===== Replace file storage with in-memory storage =====
+REPO_STORE = {}
+ATTACHMENTS = {}
 
+# ===== Helper functions =====
 def save_repo_store(store):
-    with open(REPO_STORE_FILE, "w", encoding="utf-8") as f:
-        json.dump(store, f, indent=2)
-
+    # No file write; just keep in memory
+    global REPO_STORE
+    REPO_STORE = store
 
 def fetch_existing_code_from_github(repo_full_name, github_token):
-    """
-    Recursively fetch all files from GitHub repo.
-    Returns: {filename: content}
-    """
     headers = {"Authorization": f"token {github_token}"}
     existing_code = {}
 
@@ -53,7 +44,7 @@ def fetch_existing_code_from_github(repo_full_name, github_token):
     fetch_dir()
     return existing_code
 
-
+# ===== API endpoint =====
 @app.route("/app-creator", methods=["POST"])
 def receive_request():
     data = request.get_json()
@@ -77,16 +68,10 @@ def receive_request():
         try:
             header, encoded = url.split(",", 1)
             binary_data = base64.b64decode(encoded)
-            filepath = os.path.join(ATTACHMENT_DIR, name)
-            with open(filepath, "wb") as f:
-                f.write(binary_data)
-            with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
-                content = f.read()
+            content = binary_data.decode("utf-8", errors="ignore")
             attachments.append({"name": name, "content": content})
         except Exception as e:
             print(f"[ERROR] Failed to decode {name}: {e}")
-
-    print(f" Saved {len(attachments)} attachment(s)")
 
     task = data["task"]
     brief = data["brief"]
@@ -115,24 +100,16 @@ def receive_request():
             return jsonify({"error": f"'repo_full_name' missing for task {task}"}), 500
 
         existing_code = fetch_existing_code_from_github(repo_full_name, GITHUB_TOKEN)
-        print(f"Fetched {len(existing_code)} existing files for Round 2 LLM input")
-
         updated_code = generate_app_from_brief(brief, attachments, existing_code)
 
         for path in updated_code:
             if path.endswith((".html", ".css", ".js")):
                 updated_code[path] += f"\n<!-- updated: {datetime.utcnow().isoformat()} -->"
 
-
-        print(f"--- Round 2 LLM output keys ---")
-        for k in updated_code.keys():
-            print(f"  {k}")
-
         files_to_update = updated_code.copy()
         files_to_update.setdefault("LICENSE", MIT_LICENSE_TEXT)
         files_to_update.setdefault("README.md", "# README missing")
 
-        print(f"Pushing {len(files_to_update)} files to {repo_full_name} via GitHub API...")
         final_repo_info = update_repo_via_api(
             repo_full_name=repo_full_name,
             files_to_update=files_to_update,
@@ -141,7 +118,7 @@ def receive_request():
 
         REPO_STORE[task].update(final_repo_info)
         save_repo_store(REPO_STORE)
-        print(f" Round 2 repo updated for task '{task}'")
+        print(f"Round 2 repo updated for task '{task}'")
 
     else:
         return jsonify({"error": f"Unsupported round {round_index}"}), 400
@@ -168,6 +145,7 @@ def receive_request():
         "pages_url": REPO_STORE[task]["pages_url"]
     }), 200
 
-
+# ===== Use Vercel dynamic port =====
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=7860)
+    port = int(os.environ.get("PORT", 7860))
+    app.run(debug=True, host="0.0.0.0", port=port)
