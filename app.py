@@ -8,18 +8,16 @@ from llm_builder import generate_app_from_brief
 from github_deployer import create_and_push_repo, MIT_LICENSE_TEXT, GITHUB_USER, GITHUB_TOKEN
 from github_updater import update_repo_via_api
 from notifier import notify_evaluation_url
+from mangum import Mangum 
 
 app = Flask(__name__)
 
 EXPECTED_SECRET = "2546@#$yutiop!2890"
 
-# ===== Replace file storage with in-memory storage =====
 REPO_STORE = {}
 ATTACHMENTS = {}
 
-# ===== Helper functions =====
 def save_repo_store(store):
-    # No file write; just keep in memory
     global REPO_STORE
     REPO_STORE = store
 
@@ -44,7 +42,6 @@ def fetch_existing_code_from_github(repo_full_name, github_token):
     fetch_dir()
     return existing_code
 
-# ===== API endpoint =====
 @app.route("/app-creator", methods=["POST"])
 def receive_request():
     data = request.get_json()
@@ -145,7 +142,4 @@ def receive_request():
         "pages_url": REPO_STORE[task]["pages_url"]
     }), 200
 
-# ===== Use Vercel dynamic port =====
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 7860))
-    app.run(debug=True, host="0.0.0.0", port=port)
+handler = Mangum(app)
