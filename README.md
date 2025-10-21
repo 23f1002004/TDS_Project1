@@ -1,33 +1,21 @@
----
-title: Tdsp1
-emoji: 📈
-colorFrom: indigo
-colorTo: pink
-sdk: docker
-pinned: false
-license: mit
-short_description: 'For deploying TDS Project 1'
----
+# 🧠 TDS Project – Evaluation Automation Platform
 
-# 🧠 LLM Code Deployment App
-
-This is a **Docker-based Flask app** that automates code generation, GitHub updates, and evaluation notifications for multi-round LLM evaluations.
+This project is a Flask-based backend designed to automate evaluation workflows, integrate with GitHub for seamless version control, and notify users of progress. It’s optimized for deployment on Vercel using serverless Python functions.
 
 ---
 
 ## 🚀 Features
 
-- Flask backend for handling evaluation rounds  
-- Integration with GitHub for automatic commits  
-- Notifier module to send evaluation updates  
-- Ready for deployment on Hugging Face Spaces using Docker  
+- ✅ **Flask backend** for handling evaluation rounds and API endpoints  
+- 🔄 **GitHub integration** for automatic commits and updates  
+- 📣 **Notifier module** to send evaluation status alerts  
+- 🌐 **Vercel-ready** structure for fast and scalable deployment  
 
 ---
 
-## 🐳 Run Locally
+## 📦 Installation
+
+To install dependencies:
 
 ```bash
-git clone <your-repo-url>
-cd <repo-folder>
 pip install -r requirements.txt
-python app.py
